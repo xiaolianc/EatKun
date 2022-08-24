@@ -124,7 +124,7 @@ function gameRestart() {
     _gameScore = 0;
     _gameOver = false;
     _gameStart = false;
-    _gameTimeNum = 30;
+    _gameTimeNum = 20;
     GameTimeLayer.innerHTML = creatTimeText(_gameTimeNum);
     countBlockSize();
     refreshGameLayer(GameLayer[0]);
@@ -339,12 +339,15 @@ function backBtn() {
 function shareText(score) {
     let date2 = new Date();
     deviation_time = (date2.getTime() - _date1.getTime())
+    if (deviation_time > 23000) {
+        return '倒计时多了' + ((deviation_time / 1000) - 20).toFixed(2) + "s";
+    }
     SubmitResults();
-    if (score <= 30) return '鸡你太美';
-    if (score <= 60) return '鸡你太太美';
-    if (score <= 100) return '鸡鸡鸡鸡鸡';
-    if (score <= 150) return '唱 跳 rap 篮球';
-    return '你就是蔡徐坤本人？';
+    if (score <= 30) return '林你太美';
+    if (score <= 60) return '林你太太美';
+    if (score <= 100) return '一林！一林！一林！';
+    if (score <= 150) return '家人们搞笑我最擅长';
+    return '你就是一林本人？';
 }
 
 function toStr(obj) {
