@@ -6,26 +6,11 @@
     <title>下载文件</title>
 </head>
 <body>
-    <h1>点击按钮下载文件</h1>
+    <h1>点击下载文件</h1>
     
-    <!-- 下载按钮 -->
-    <button onclick="downloadFile()">下载 PhraseEdit.txt</button>
-
-    <script>
-        function downloadFile() {
-            // 设置 GitHub 上文件的原始下载链接
-            const filePath = 'https://raw.githubusercontent.com/xiaolianc/111/main/static/PhraseEdit.txt';  // 请替换为正确的文件路径
-            
-            // 创建一个下载链接
-            const link = document.createElement('a');
-            link.href = filePath;  // 设置文件的 URL
-            
-            // 设置下载文件名
-            link.download = 'PhraseEdit.txt';  // 触发下载时的文件名
-            
-            // 触发点击事件来下载文件
-            link.click();
-        }
-    </script>
+    <!-- 直接提供GitHub链接 -->
+    <a href="https://raw.githubusercontent.com/xiaolianc/111/main/static/PhraseEdit.txt">
+        点击下载 PhraseEdit.txt
+    </a>
 </body>
 </html>
