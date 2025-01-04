@@ -252,11 +252,16 @@ zstudentbzcrytxsjlqzgx,5=
     <button onclick="saveTextAsFile()">保存为UTF-16 LE文件</button>
 
     <script>
-        // 一键全选复制
-        function selectText() {
-            var textArea = document.getElementById('textArea');
-            textArea.select();
-            document.execCommand('copy');
+        // 一键全选并复制到剪贴板
+        async function selectText() {
+            try {
+                var textArea = document.getElementById('textArea');
+                textArea.select();
+                await navigator.clipboard.writeText(textArea.value); // 使用Clipboard API进行复制
+                alert("文本已复制到剪贴板！");
+            } catch (err) {
+                alert("复制失败，请手动复制！");
+            }
         }
 
         // 保存文本为UTF-16 LE格式的文件
