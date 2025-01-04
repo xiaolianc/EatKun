@@ -14,17 +14,19 @@
         function stringToUTF16LE(str) {
             var bytes = [];
             for (var i = 0; i < str.length; i++) {
-                // 获取每个字符的UTF-16编码点
-                var code = str.charCodeAt(i);
-                // 将字符编码点转为小端字节序（低字节在前）
-                bytes.push(code & 0xFF);      // 低字节
+                var code = str.charCodeAt(i);  // 获取字符的UTF-16编码点
+
+                // 低字节在前，高字节在后（小端字节序）
+                bytes.push(code & 0xFF);        // 低字节
                 bytes.push((code >> 8) & 0xFF); // 高字节
             }
+
+            // 将字节数组转换为 Uint8Array
             return new Uint8Array(bytes);
         }
 
         function downloadText() {
-            // 获取页面中的内容
+            // 获取页面中的内容（例如中文文本）
             const textContent = document.getElementById('content').innerText;
 
             // 将文本内容转换为UTF-16 LE编码字节
