@@ -5,10 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文字存储</title>
+    <style>
+        /* 基本样式 */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #editableText {
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            white-space: pre-wrap; /* 保留空格和换行 */
+            overflow: auto;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
     <h1>文字存储</h1>
-    <textarea id="textArea" rows="10" cols="50" placeholder=;  搜狗输入法--自定义短语配置文件
+    <div id="editableText" contenteditable="true" placeholder=";  搜狗输入法--自定义短语配置文件
 
 ;  自定义短语说明：
 ;  1、自定义短语支持多行、空格、指定位置。
@@ -218,7 +247,8 @@ zscorebzcxxsbhwdxsxxsy,5=
 数据库系统原理与应用'）;
 zstudentbzcrytxsjlqzgx,5=
 （1）Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12'); 
-（2）Update student set birthday ='2001-10-01' where id= 23001; ></textarea>
+（2）Update student set birthday ='2001-10-01' where id= 23001; "></div>
+
     <br><br>
     <button onclick="saveTextAsFile()">保存为UTF-16 LE文件</button>
     <button onclick="selectText()">一键全选复制</button>
@@ -226,11 +256,16 @@ zstudentbzcrytxsjlqzgx,5=
     <script>
         // 一键全选并复制到剪贴板
         async function selectText() {
-            var textArea = document.getElementById('textArea');
-            textArea.select(); // 确保文本框中的内容被选中
+            var editableDiv = document.getElementById('editableText');
+            // 选择并复制内容
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(editableDiv);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
             try {
-                // 使用Clipboard API进行复制
-                await navigator.clipboard.writeText(textArea.value); 
+                await navigator.clipboard.writeText(editableDiv.innerText);
                 alert("文本已复制到剪贴板！");
             } catch (err) {
                 alert("复制失败，请手动复制！");
@@ -239,7 +274,7 @@ zstudentbzcrytxsjlqzgx,5=
 
         // 保存文本为UTF-16 LE格式的文件
         function saveTextAsFile() {
-            var text = document.getElementById('textArea').value;
+            var text = document.getElementById('editableText').innerText; // 获取文本内容
 
             // 创建一个UTF-16 LE编码的文件
             var encoder = new TextEncoder('utf-16le'); // 使用utf-16le编码
@@ -256,5 +291,6 @@ zstudentbzcrytxsjlqzgx,5=
             link.click();
         }
     </script>
+
 </body>
 </html>
