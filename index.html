@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>下载文件</title>
+    <title>Download PhraseEdit.txt</title>
 </head>
 <body>
-    <h1>点击下载文件</h1>
-    
-    <!-- 直接提供GitHub链接 -->
-    <a href="https://raw.githubusercontent.com/xiaolianc/111/main/static/PhraseEdit.txt">
-        点击下载 PhraseEdit.txt
-    </a>
+    <h1>Download PhraseEdit.txt from GitHub</h1>
+    <button id="downloadBtn">Download PhraseEdit.txt</button>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const fileUrl = 'https://raw.githubusercontent.com/xiaolianc/111/main/static/PhraseEdit.txt';
+            
+            fetch(fileUrl)
+                .then(response => response.text())
+                .then(data => {
+                    const blob = new Blob([data], { type: 'text/plain' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'PhraseEdit.txt';
+                    link.click();
+                })
+                .catch(error => {
+                    console.error('Error downloading the file:', error);
+                });
+        });
+    </script>
 </body>
 </html>
