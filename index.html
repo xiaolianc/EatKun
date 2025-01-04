@@ -11,27 +11,32 @@
             line-height: 1.6; /* 行间距 */
             white-space: pre-wrap; /* 保持文本格式 */
             word-wrap: break-word; /* 长文本自动换行 */
-            padding: 20px;
-            margin: 0;
+            margin: 0; /* 去掉页面边距 */
+            padding: 0; /* 去掉页面内边距 */
+            display: flex; /* 使用flex布局 */
+            justify-content: center; /* 居中显示内容 */
+            align-items: center; /* 垂直居中 */
+            height: 100vh; /* 页面高度占满屏幕 */
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        .content {
+            width: 100%; /* 容器宽度占满页面 */
+            max-width: 100%; /* 容器最大宽度为100% */
+            padding: 0; /* 去掉容器内边距 */
+            box-sizing: border-box; /* 使宽度和高度包括padding */
+            overflow: auto; /* 如果文本过多，允许滚动 */
         }
 
         p {
-            color: #555;
             font-size: 16px;
-            width: 100%; /* 确保段落宽度足够 */
-            box-sizing: border-box;
+            color: #333;
+            margin: 0; /* 去掉段落之间的空白 */
+            padding: 0; /* 去掉段落内的空白 */
         }
 
-        /* 让容器根据内容自动扩展高度 */
-        .content {
-            display: block;
-            width: 100%;
-            overflow: visible; /* 允许内容溢出显示 */
+        /* 让文本内容可选 */
+        .content p {
+            user-select: text; /* 允许选择文字 */
         }
     </style>
 </head>
@@ -496,8 +501,7 @@ zhijiandeguanxi,5=
 数据库管理系统：专门用于创建和管理数据库的一套软件，介于应用程序和操作系统之间，如 MySQL、Oracle 等。
 zhixingjieguo,5=2
 ziyuanxianzhi,5=0
-        </p>
-
+</p>
     </div>
 </body>
 </html>
