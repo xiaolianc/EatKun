@@ -87,214 +87,415 @@
 ;  你可以用自定义短语来做一个带动态时间的多行回信落款。
 ;  ss,1=#$year年$month月$day_dd日 $fullhour:$minute:$second
 
-cz,5=
-第10题 已知数据表goods表结构如下表所示，请写出SQL语句，完成以下操作。
-（1）在goods表中插入一条记录，其中该商品编号为"1001"，name为" shampoo"，价格为65；（3分）
-（2）在goods表中把商品名称为" shampoo "的价格修改为60。
-答案：（1）Insert into goods (id,name, price) values(1001, ' shampoo ',65);（2）Update goods set price=60 where name=' shampoo '; 
-第11题 请写出SQL语句，完成以下操作。
-（1）创建jxgl数据库； 
-（2）选择jxgl数据库； 
-（3）按以下要求创建course数据表。
-①该表中包括以下字段：
-字段名： id，字段类型无符号int，该字段描述课程编号；
-字段名：name，字段类型varchar（20），该字段描述课程名称；
-字段名：credit，字段类型无符号int，该字段描述课程学分；
-②要求把id字段设置为主键，name字段取值不允许重复，credit默认值为3。
-答案：（1）create database jxgl;（1分）
-（2）use jxgl;（1分）
-（3）
+anzichaxundegongneng,5=标量子查询
+baocuo,5=IF EXISTS
+charuxueshengjilu,5=
+1.Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12');
+2.Update student set birthday ='2001-10-01' where id= 23001;
+chaxunkechengbianhao,5=
+1.Select avg(grade),max(grade),min(grade) from score where cou_id=21001;
+2.Select max(grade) from score group by cou_id;
+3.select grade from score where stu_id=（select id from student where name='Lily'） and cou_id=21001; 
+chongfujilu,5=DISTINCT
+chuangjianjxgl,5=
+1.create database jxgl;
+2.use jxgl;
+3.CREATE TABLE course (
+id INT unsigned PRIMARY KEY COMMENT '课程编号', name	varchar（20）UNIQUE COMMENT '课程名称', credit INT unsigned DEFAULT 3 COMMENT '课程学分'
+
+chuangjianrsgl,5=
+1.create database rsgl;
+2.use rsgl;
+3.CREATE TABLE department (
+id INT unsigned PRIMARY KEY COMMENT '部门编号', name VARCHAR(30) UNIQUE COMMENT '部门名称',
+manager	varchar（20）COMMENT '部门负责人'
+);
+delete,5=
+1.实现方式不同:TRUNCATE 本质上先执行删除(DROP)数据表的操作,然后再根据有效的表结构文件(.frm)重新创建数据表的方式来实现数据清空操作.而 DELETE 语句则是逐条的删除数据表中保存的记录.
+2.执行效率不同:在针对大型数据表(如千万级的数据记录)时,TRUNCATE 清空数据的实现方式,决定了它比 DELETE 语句删除数据的方式执行效率更高.
+3.对 AUTO_INCREMENT 的字段影响不同:TRUNCATE 清空数据后,再次向表中添加数据,自动增长字段会从默认的初始值重新开始,而使用DELETE 语句删除表中的记录时,则不影响自动增长值.
+4.删除数据的范围不同:TRUNCATE 语句只能用于清空表中的所有记录,而
+DELETE 语句可通过 WHERE 指定删除满足条件的部分记录.
+5.返回值含义不同:TRUNCATE 操作的返回值一般是无意义的,而DELETE 语句则会返回符合条件被删除的记录数.
+6.所属 SQL 语言的不同组成部分:DELETE 语句属于 DML 数据操作语句,而TRUNCATE 通常被认为是 DDL 数据定义语句.
+employee,5=
+create database rsgl;
+use rsgl;
+CREATE TABLE employee (
+id INT unsigned PRIMARY KEY COMMENT '员工编号', name varchar（30）not null COMMENT '员工姓名',
+age INT unsigned not null COMMENT '员工年龄'
+
+);
+fuhezhujianziduan,5=
+1.插入异常：如果一个用户没有下过订单,则该用户无法插入。
+2.删除异常：如果删除一个用户所有的订单,则该用户也会被删除。
+3.更新异常：由于用户名冗余,修改一个用户时需要修改多条记录。如果稍有不慎,漏改某些记录，会出现更新异常。
+
+guanjianzixiushi,5=UNSIGNED
+guanxixingshujuku,5=关系
+jdt,5=
+第 1 题 请分析数据库范式 1NF、2NF、3NF 的区别。 
+答案：（1）1NF：数据库表的每一列都是不可分割的基本数据项. 
+（2）2NF：在满足 1NF 基础上，遵从唯一性，非主键字段需完全依赖主键. 
+（3）3NF：在满足 2NF 基础上，非主键字段不能相互依赖. 
+第 2 题 请简述数据、数据库、数据表、数据库管理系统之间的关系。 
+答案：数据：凡是在计算机中用来描述事物的信息都可称作数据。不仅包括普通 
+意义上的数字，还包括文字、图像、声音等。 
+数据库按照特定的组织形式保存在存储介质上的相关数据集合。 
+在数据库中，所有的数据都存储在数据表中，在数据表里对数据执行添加、查看、 
+修改、删除等操作。 
+数据库管理系统：专门用于创建和管理数据库的一套软件，介于应用程序和操作 
+系统之间，如 MySQL、Oracle 等。 
+第 3 题 谈谈你对数据库的三级模式的理解？ 
+答案：三级模式：是指数据库管理系统从三个层次来管理数据，外部层、概念层、 
+内部层。 
+三个层次分别对应三种不同类型的模式：外模式、概念模式、内模式。
+其中， 
+外模式：面向应用程序，描述用户的数据视图。 
+概念模式：又称为模式、逻辑模式，面向数据库设计人员，描述数据的整体逻辑 
+结构。 
+内模式：又称为物理模式、存储模式，面向物理上的数据库，描述数据在磁盘中 
+如何存储。 
+第 4 题 请简述数据库设计的过程。 
+答案： 
+1.需求分析：数据库设计人员分析用户需求，形成需求分析报告。db 题库 
+2.概念数据库设计：对用户的需求进行综合、归纳、抽象，形成概念模型。 
+3.逻辑数据库设计：把概念数据库设计中完成的概念模型转化为逻辑模型。 
+4.物理数据库设计：确定数据库的存储结构、文件类型等。 
+5.数据库实施：创建数据库、数据表，编写与调试应用程序。 
+6.数据库运行和维护：数据库系统正式投入运行，进行维护、备份、升级等工作。 
+第 5 题 请简述事务的基本特性。 
+答案：1. 原子性 
+事务中的所有操作要么全部完成，要么全部不做，即事务是一个不可分割的工作 
+单位。 
+如果事务中任何一个操作失败，整个事务将回滚，数据库状态恢复到事务开始之 
+前的状态。 
+2. 一致性 
+事务在执行之前和执行之后，数据库都必须处于一致的状态。事务执行过程中的 
+操作必须遵循数据库的约束和规则，确保数据的正确性。 
+如果事务开始时数据库是一致的，事务完成后也必须保持一致。 
+3. 隔离性 
+事务的执行不应受到其他事务的干扰。即便多个事务并发执行，每个事务的操作 
+和结果应该对其他事务不可见，直到它完成。 
+隔离性通常通过不同的隔离级别来实现（如：读未提交、读已提交、可重复读、 
+串行化等）。 
+4. 持久性
+一旦事务提交，对数据库的修改就应该永久保存，即使发生系统崩溃或其他故障， 
+已提交的事务的结果也应得以保留。 
+事务提交后，数据库的更改被永久写入存储介质（如磁盘），不会丢失。 
+这四个特性确保了数据库在并发环境下能够正确地执行事务，并保持数据的一致 
+性和可靠性。 
+第 6 题 谈谈你对关系模型的完整性约束规则的理解。 
+答案：关系模型的完整性：为了保证数据库中数据的正确性和相容性，需要对关 
+系模型进行完整性约束。（1 分） 
+实体完整性：实体完整性是对关系中元组唯一性的约束。要求关系中的主键不能 
+重复，且不能取空值。 
+参照完整性：是关系之间相关联的约束。要求关系中的外键要么取空值，要么取 
+被参照关系中的某个元组的主键值。 
+用户自定义完整性：是用户针对具体的应用环境定义的完整性约束条件，由 
+DBMS 检查用户自定义的完整性。 
+第 7 题 请简述 DELETE 与 TRUNCATE 的区别。 
+答案：① 实现方式不同:TRUNCATE 本质上先执行删除(DROP)数据表的操作, 
+然后再根据有效的表结构文件(.frm)重新创建数据表的方式来实现数据清空操作. 
+而 DELETE 语句则是逐条的删除数据表中保存的记录. 
+② 执行效率不同:在针对大型数据表(如千万级的数据记录)时,TRUNCATE 清空 
+数据的实现方式,决定了它比 DELETE 语句删除数据的方式执行效率更高. 
+③ 对 AUTO_INCREMENT 的字段影响不同:TRUNCATE 清空数据后,再次向表 
+中添加数据,自动增长字段会从默认的初始值重新开始,而使用DELETE 语句删除 
+表中的记录时,则不影响自动增长值. 
+④ 删除数据的范围不同:TRUNCATE 语句只能用于清空表中的所有记录,而 
+DELETE 语句可通过 WHERE 指定删除满足条件的部分记录. 
+⑤ 返回值含义不同:TRUNCATE 操作的返回值一般是无意义的,而 DELETE 语句 
+则会返回符合条件被删除的记录数. 
+⑥ 所属 SQL 语言的不同组成部分:DELETE 语句属于 DML 数据操作语句,而 
+TRUNCATE 通常被认为是 DDL 数据定义语句. 
+第 8 题 请简述与直接操作基本表相比，视图有哪些优势？ 
+答案：与直接操作基本表相比较，视图具有如下优点：db 题库 
+（1）简化查询语句：简化用户的查询操作，使查询更加快捷。 
+（2）安全性：更方便的进行权限控制。 
+（3）逻辑数据独立性：屏蔽真实表结构变化带来的影响。 
+第 9 题 根据用户表（用户编号,订单编号，用户名，付款状态）说出可能存在的 
+问题并举例说明，其中，用户编号和订单编号是复合主键字段。 
+答案：① 插入异常：如果一个用户没有下过订单,则该用户无法插入。 
+② 删除异常：如果删除一个用户所有的订单,则该用户也会被删除。 
+③ 更新异常：由于用户名冗余,修改一个用户时需要修改多条记录。如果稍有不 
+慎,漏改某些记录，会出现更新异常。 
+第 10 题 已知数据表 goods 表结构如下表所示，请写出 SQL 语句，完成以下操 
+作。 
+（1）在 goods 表中插入一条记录，其中该商品编号为"1001"，name 为 
+" shampoo"，价格为 65； 
+（2）在 goods 表中把商品名称为" shampoo "的价格修改为 60。 
+答案：（1）Insert into goods (id,name, price) values(1001, ' shampoo ',65); 
+（2）Update goods set price=60 where name=' shampoo '; 
+第 11 题 请写出 SQL 语句，完成以下操作。 
+（1）创建 jxgl 数据库； 
+（2）选择 jxgl 数据库； 
+（3）按以下要求创建 course 数据表。 
+①该表中包括以下字段： 
+字段名： id，字段类型无符号 int，该字段描述课程编号； 
+字段名：name，字段类型 varchar（20），该字段描述课程名称； 
+字段名：credit，字段类型无符号 int，该字段描述课程学分； 
+②要求把 id 字段设置为主键，name 字段取值不允许重复，credit 默认值为 3。 
+答案：（1）create database jxgl; 
+（2）use jxgl; 
+（3） 
 CREATE TABLE course ( 
-	id INT unsigned PRIMARY KEY COMMENT '课程编号', 
-	name 	varchar（20）UNIQUE COMMENT '课程名称', 
-	credit INT unsigned DEFAULT 3 COMMENT '课程学分' 
-	);（6分）
-若无PRIMARY KEY、UNIQUE、DEFAULT 3等约束，各扣0.5分
-第12题 数据库设计题。
-请把以下E-R图转换为关系模式，并且要求注明每个关系模式的主关键字。
-项目（项目编号，项目名称，负责人）
-员工（员工编号，姓名，出生日期，性别）
-参与（项目编号，员工编号）
-第13题 数据库设计题。
-请把以下E-R图转换为关系模式，并且要求注明每个关系模式的主关键字。
-答案：出版社（出版社编号*，名称，负责人）
-图书（图书编号*，名称，作者，出版社编号）
-第13题 请写出SQL语句，完成以下操作。
-（1）创建rsgl数据库； （1分）
-（2）选择rsgl数据库； （1分）
-（3）按以下要求创建department数据表。（6分）①该表中包括以下字段：
-字段名：id，字段类型int，该字段描述部门编号；
-字段名：name，字段类型varchar（30），该字段描述部门名称；字段名：manager，字段类型varchar（20），该字段描述部门负责人；②要求把id字段设置为主键，name字段取值不允许重复。
-答案：（1）create database rsgl;（1分）
-（2）use rsgl;（1分）
-（3）
+id INT unsigned PRIMARY KEY COMMENT '课程编号', 
+name varchar（20）UNIQUE COMMENT '课程名称', 
+credit INT unsigned DEFAULT 3 COMMENT '课程学分' 
+); 
+第 12 题 数据库设计题。 
+请把以下 E-R 图转换为关系模式，并且要求注明每个关系模式的主关键字。 
+答案：项目（项目编号，项目名称，负责人） 
+员工（员工编号，姓名，出生日期，性别） 
+参与（项目编号，员工编号） 
+第 13 题 数据库设计题。 
+请把以下 E-R 图转换为关系模式，并且要求注明每个关系模式的主关键字。 
+答案：出版社（出版社编号*，名称，负责人） 
+图书（图书编号*，名称，作者，出版社编号） 
+第 13 题 请写出 SQL 语句，完成以下操作。 
+（1）创建 rsgl 数据库；  
+（2）选择 rsgl 数据库； 
+（3）按以下要求创建 department 数据表。 
+①该表中包括以下字段： 
+字段名：id，字段类型 int，该字段描述部门编号； 
+字段名：name，字段类型 varchar（30），该字段描述部门名称； 
+字段名：manager，字段类型 varchar（20），该字段描述部门负责人； 
+②要求把 id 字段设置为主键，name 字段取值不允许重复。 
+答案：（1）create database rsgl; 
+（2）use rsgl; 
+（3） 
 CREATE TABLE department ( 
-	id INT unsigned PRIMARY KEY COMMENT '部门编号', 	name VARCHAR(30) UNIQUE COMMENT '部门名称', 	manager 	varchar（20）COMMENT '部门负责人'
-);（6分）
-第14题 在jwgl数据库中的studeut表和score表结构如下面的关系模式所示。其中，student表存放
-学生信息，score表存放成绩信息。
-student（id，name，sex）其中，id为学生编号是主键，name为学生姓名，sex为性别；
-score（stu_id，cou_id，grade）其中，stu_id为学生编号，cou_id为课程编号，grade
-为成绩。
-请写出完成以下操作的SQL语句。
-（1）在score表中查询课程编号为21001的课程的平均成绩、最高成绩和最低成绩。
-（2）在score表中查询每门课程的最高成绩。
-（3）查询Lily同学选修的编号为21001的课程的成绩。
-答案：（1）Select avg(grade),max(grade),min(grade) from score where cou_id=21001;（4分）
-（2）Select max(grade) from score group by cou_id; （4分）
-（3）select grade from score where stu_id=（select id from student where name='Lily'）and cou_id=21001; （5分）
-第15题 已知数据表student表结构如下表所示，请写出SQL语句，完成以下操作。
-（1）在student表中插入一条学生记录，其中该学生编号为"23001"，name为"Lily"，出生日期为"2001-12-12"；（3分）
-（2）在student表中把学生编号为"23001"的学生出生日期修改为"2001-10-01"。
-（3分）
-答案：（1）Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12');（3分）
-（2）Update student set birthday ='2001-10-01' where id= 23001;（3分）
-第16题 已知在shop数据库中的数据表goods和category的表结构如下表所示，其中，goods保存商品信息，category保存商品类别信息。请写出SQL语句，完成以下操作。
-（1）查询数据表goods中商品价格在50元--100元范围内（包含50元和100元）的商品id、name、price。（4分）
-（2）查询数据表 goods中商品类别编号为"1001"的所有商品的最高价格。（4分）
-（3）查询商品类别名称为"洗化用品"的所有商品的编号、名称和价格。（5分）
-答案：（1）Select id，name，price from goods where price>=50 and price<=100;（4分）
-（2）Select MAX(price) from goods where c_id=1001;（4分）
-（3）select id, name, price from goods where c_id=(select id from category where name='洗化用品');（5分）
-第17题 请按以下要求写出创建用户、授予权限的SQL语句。
-（1）请创建一个用户，该用户名为"Lily"，密码为"123456"，用户可通过任意客户端访问数据库；（3分）
-（2）请为"Lily"用户授予查询shop数据库的权限。（3分）
-答案：（1）CREATE USER ' Lily '@'%' IDENTIFIED BY '123456'; （3分）（2）GRANT SELECT ON shop.* TO ' Lily '@'%'; （3分）
-第18题 请按以下要求写出创建视图、视图数据操作的SQL语句。
-（1）创建视图view_goods，视图中包含goods数据表中的id、name、price字段。（3分）
-（2）通过视图view_ goods，给goods数据表添加一条商品记录，该商品id为200101，name为"pen"。（其中，id字段为int类型，name字段为char类型）（3分）
-答案：（1）create view view_stu as select id,name from student;（3分）
-（2）insert into view_stu (id,name) values(200101,' pen');（3分）
+id INT unsigned PRIMARY KEY COMMENT '部门编号', 
+name VARCHAR(30) UNIQUE COMMENT '部门名称', 
+manager varchar（20）COMMENT '部门负责人' 
+); 
+第 14 题 在 jwgl 数据库中的 studeut 表和 score 表结构如下面的关系模式所示。 
+其中，student 表存放 
+学生信息，score 表存放成绩信息。 
+student（id，name，sex）其中，id 为学生编号是主键，name 为学生姓名，sex 
+为性别； 
+score（stu_id，cou_id，grade）其中，stu_id 为学生编号，cou_id 为课程编号， 
+grade 
+为成绩。 
+请写出完成以下操作的 SQL 语句。 
+（1）在 score 表中查询课程编号为 21001 的课程的平均成绩、最高成绩和最低 
+成绩。 
+（2）在 score 表中查询每门课程的最高成绩。 
+（3）查询 Lily 同学选修的编号为 21001 的课程的成绩。 
+答案：（1）Select avg(grade),max(grade),min(grade) from score where cou_id=21001; 
+（2）Select max(grade) from score group by cou_id; 
+（3）select grade from score where stu_id=（select id from student where name='Lily'） 
+and cou_id=21001; 
+第 15 题 已知数据表 student 表结构如下表所示，请写出 SQL 语句，完成以下 
+操作。 
+（1）在 student 表中插入一条学生记录，其中该学生编号为"23001"，name 为 
+"Lily"，出生日期为"2001-12-12"； 
+（2）在 student 表中把学生编号为"23001"的学生出生日期修改为"2001-10-01"。 
 
+答案：（1）Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12'); 
+（2）Update student set birthday ='2001-10-01' where id= 23001; 
+第 16 题 已知在 shop 数据库中的数据表 goods 和 category 的表结构如下表所示， 
+其中，goods 保存商品信息，category 保存商品类别信息。请写出 SQL 语句， 
+完成以下操作。 
+（1）查询数据表 goods 中商品价格在 50 元--100 元范围内（包含 50 元和 100 元） 
+的商品 id、name、price。
+（2）查询数据表 goods 中商品类别编号为"1001"的所有商品的最高价格 
 
-第19题 请按以下要求写出添加外键约束的SQL语句。（6分）
-若jxgl数据库中已有学院表college(id,name)和教师表teacher(id,name,cid)，其中teacher表中的cid表示学院编号。
-现请在teacher表中建立外键约束，在teacher表的cid含有数据时拒绝college表执行删除操作，而college表更新时自动更新teacher表相关数据。
+（3）查询商品类别名称为"洗化用品"的所有商品的编号、名称和价格。db 题库 
+答案：（1）Select id，name，price from goods where price>=50 and price<=100; 
+（4 分） 
+（2）Select MAX(price) from goods where c_id=1001; 
+（3）select id, name, price from goods where c_id=(select id from category where 
+name='洗化用品'); 
+第 17 题 请按以下要求写出创建用户、授予权限的 SQL 语句。 
+（1）请创建一个用户，该用户名为"Lily"，密码为"123456"，用户可通过任意 
+客户端访问数据库； 
+（2）请为"Lily"用户授予查询 shop 数据库的权限。
+答案：（1）CREATE USER ' Lily '@'%' IDENTIFIED BY '123456'; 
+（2）GRANT SELECT ON shop.* TO ' Lily '@'%'; 
+第 18 题 请按以下要求写出创建视图、视图数据操作的 SQL 语句。 
+（1）创建视图 view_goods，视图中包含 goods 数据表中的 id、name、price 字 
+段。 
+（2）通过视图 view_ goods，给 goods 数据表添加一条商品记录，该商品 id 为 
+200101，name 为"pen"。（其中，id 字段为 int 类型，name 字段为 char 类型） 
+
+答案：（1）create view view_stu as select id,name from student; 
+（2）insert into view_stu (id,name) values(200101,' pen'); 
+第 19 题 请按以下要求写出添加外键约束的 SQL 语句。 
+若 jxgl 数据库中已有学院表 college(id,name)和教师表 teacher(id,name,cid)，其 
+中 teacher 表中的 cid 表示学院编号。db 题库 
+现请在 teacher 表中建立外键约束，在 teacher 表的 cid 含有数据时拒绝 college 
+表执行删除操作，而 college 表更新时自动更新 teacher 表相关数据。 
 答案：ALTER TABLE jxgl. teacher 
-ADD CONSTRAINT FK_ID FOREIGN KEY (cid) REFERENCES 	college (id) ON DELETE RESTRICT ON UPDATE CASCADE;（6分）
-第20题 请按要求写出SQL命令，完成以下操作。
-数据表user中包含两个字段，name和money，其中name存放用户名称，money存放用户账户
-金额，表中的用户有A和B,他们都有1000元。
-若用户A给用户B转账500元，请利用事务完成两个账户的转账操作。
+ADD CONSTRAINT FK_ID FOREIGN KEY (cid) REFERENCES college (id) 
+ON DELETE RESTRICT ON UPDATE CASCADE; 
+第 20 题 请按要求写出 SQL 命令，完成以下操作。 
+数据表 user 中包含两个字段，name 和 money，其中 name 存放用户名称，money 
+存放用户账户 
+金额，表中的用户有 A 和 B,他们都有 1000 元。 
+若用户 A 给用户 B 转账 500 元，请利用事务完成两个账户的转账操作。 
 答案：START TRANSACTION; 
-UPDATE user SET money = money - 500 WHERE name = 'A'; UPDATE user SET money = money + 500 WHERE name = 'B'; COMMIT;
-第21题 已知shop数据库中goods关系模式如下所示。goods（id,name,price,score,stock）。
-请写出完成以下操作的SQL语句。
-（1）请创建视图view_goods，该视图中包含goods表中stock在200件以上的商品id，name和
-stock信息。
-（2）通过视图view_goods，把goods表中商品名称为"数据库教材"的商品库存量修改为1000。
-答案：（1）CREATE VIEW view_goods AS SELECT id, name, stock FROM goods where stock>=200;
-（2）UPDATE view_goods SET stock = 1000 WHERE name = '数据库教材';
-第22题 请按以下要求写出添加外键约束的SQL语句。（6分）
-若mydb数据库中已有班级表class(id,name)和学生表student(id,name,cid)，其中student表中的cid表示班级编号。
-现请在student表中建立外键约束，在student表的cid含有数据时拒绝class表执行删除操作，而class表更新时自动更新student表相关数据。
+UPDATE user SET money = money - 500 WHERE name = 'A'; 
+UPDATE user SET money = money + 500 WHERE name = 'B'; 
+COMMIT;db 题库 
+第 21 题 已知 shop 数据库中 goods 关系模式如下所示。 
+goods（id,name,price,score,stock）。 
+请写出完成以下操作的 SQL 语句。 
+（1）请创建视图 view_goods，该视图中包含 goods 表中 stock 在 200 件以上的 
+商品 id，name 和 
+stock 信息。 
+（2）通过视图 view_goods，把 goods 表中商品名称为"数据库教材"的商品库存 
+量修改为 1000。 
+答案：（1）CREATE VIEW view_goods AS SELECT id, name, stock FROM goods 
+where stock>=200; 
+（2）UPDATE view_goods SET stock = 1000 WHERE name = '数据库教材'; 
+第 22 题 请按以下要求写出添加外键约束的 SQL 语句。 
+若 mydb 数据库中已有班级表 class(id,name)和学生表 student(id,name,cid)，其 
+中 student 表中的 cid 表示班级编号。 
+现请在 student 表中建立外键约束，在 student 表的 cid 含有数据时拒绝 class 表 
+执行删除操作，而 class 表更新时自动更新 student 表相关数据。 
 答案：ALTER TABLE mydb.student 
-ADD CONSTRAINT FK_ID FOREIGN KEY(cid) REFERENCES class(id) ON DELETE RESTRICT ON UPDATE CASCADE;（6分）
-第24题 已知数据表category表结构如下表所示，请写出SQL语句，完成以下操作。
-（1）在category表中插入一条记录，其中该商品类别编号为"25001"，name为"Washing"，（3分）
-（2）删除category表中把商品类别名称为" Washing "的记录。（3分）
-答案：（1）Insert into category (id,name) values(25001, ' Washing ');（3分）（2）delete from category where name=' Washing ';（3分）
-第25题 请写出SQL语句，完成以下操作。
-（1）创建rsgl数据库； （1分）
-（2）选择rsgl数据库； （1分）
-（3）按以下要求创建employee数据表。（6分）
-该表中包括以下字段：
-字段名：id，字段类型int，该字段描述员工编号；
-字段名：name，字段类型varchar（30），该字段描述员工姓名；字段名：age，字段类型int，该字段描述员工年龄；
-要求把id字段设置为主键，name字段和age字段取值不允许为空值。
-答案：（1）create database rsgl;（1分）
-（2）use rsgl;（1分）
-（3）CREATE TABLE employee ( id INT unsigned PRIMARY KEY COMMENT '员工编号', name varchar（30）not null COMMENT '员工姓名',
-age INT unsigned not null COMMENT '员工年龄');（6分）
-若无PRIMARY KEY、not null等约束，各扣0.5分。
-26请把以下E-R图转换为关系模式，并且要求注明每个关系模式的主关键字。
-答案：学生（学生编号*，姓名）
+ADD CONSTRAINT FK_ID FOREIGN KEY(cid) REFERENCES class(id) 
+ON DELETE RESTRICT ON UPDATE CASCADE; 
+第 24 题 已知数据表 category 表结构如下表所示，请写出 SQL 语句，完成以下 
+操作。 
+（1）在 category 表中插入一条记录，其中该商品类别编号为"25001"， 
+name 为"Washing"， 
+（2）删除 category 表中把商品类别名称为" Washing "的记录。 
+答案：（1）Insert into category (id,name) values(25001, ' Washing '); 
+（2）delete from category where name=' Washing '; 
+第 25 题 请写出 SQL 语句，完成以下操作。 
+（1）创建 rsgl 数据库； 
+（2）选择 rsgl 数据库；  
+（3）按以下要求创建 employee 数据表。 
+该表中包括以下字段： 
+字段名：id，字段类型 int，该字段描述员工编号； 
+字段名：name，字段类型 varchar（30），该字段描述员工姓名； 
+字段名：age，字段类型 int，该字段描述员工年龄； 
+要求把 id 字段设置为主键，name 字段和 age 字段取值不允许为空值。 
+答案：（1）create database rsgl; 
+（2）use rsgl; 
+（3） 
+CREATE TABLE employee ( 
+id INT unsigned PRIMARY KEY COMMENT '员工编号', 
+name varchar（30）not null COMMENT '员工姓名', 
+age INT unsigned not null COMMENT '员工年龄'db 题库 
+); 
+第 26 题 数据库设计题。 
+请把以下 E-R 图转换为关系模式，并且要求注明每个关系模式的主关键字。 
+答案：学生（学生编号*，姓名） 
+竞赛（竞赛编号*，名称） 
+参赛（学生编号*，竞赛编号*） 
+第 27 题 在 jwgl 数据库中的 course 表和 score 表结构如下面的关系模式所示。 
+其中，course 表存放课程信息，score 表存放成绩信息。 
+course（id，name）其中，id 为课程编号是主键，name 为课程名称； 
+score（stu_id，cou_id，grade）其中，stu_id 为学生编号，cou_id 为课程编号， 
+grade 为成绩。 
+请写出完成以下操作的 SQL 语句。 
+（1）在 score 表中查询学生编号为 1001 的学生选修所有课程的平均成绩。 
+（2）在 score 表中统计平均分在 80 分以上（包含 80 分）的课程编号和平均分。 
+（3）查询课程名称为"数据库系统原理与应用"课程的平均成绩。 
+答案：（1）Select avg(grade) from score where stu_id=1001; 
+（2）Select cou_id,avg(grade) from score group by cou_id having avg(grade)>=80; 
+（3）select avg(grade) from score where cou_id=（select id from course where name=' 
+数据库系统原理与应用'）; 
+
+qingchuangjianshituvie,5=
+1.CREATE VIEW view_goods AS SELECT id, name, stock FROM goods where stock>=200;
+2.UPDATE view_goods SET stock = 1000 WHERE name = '数据库教材';
+qingchuangjianyigeyong,5=
+1.CREATE USER ' Lily '@'%' IDENTIFIED BY '123456';
+2.GRANT SELECT ON shop.* TO ' Lily '@'%'; 
+ruojxglshujuku,5=
+ALTER TABLE jxgl. teacher
+ADD CONSTRAINT FK_ID FOREIGN KEY (cid) REFERENCES	college (id)
+ON DELETE RESTRICT ON UPDATE CASCADE;
+ruomydbshujuku,5=
+ALTER TABLE mydb.student
+ADD CONSTRAINT FK_ID FOREIGN KEY(cid) REFERENCES class(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+sanjimoshi,5=
+三级模式：是指数据库管理系统从三个层次来管理数据，外部层、概念层、内部层。
+三个层次分别对应三种不同类型的模式：外模式、概念模式、内模式。
+其中，
+外模式：面向应用程序，描述用户的数据视图（View）。
+概念模式：又称为模式、逻辑模式，面向数据库设计人员，描述数据的整体逻辑结构。
+内模式：又称为物理模式、存储模式，面向物理上的数据库，描述数据在磁盘中如何存储。
+shanchushitu,1=DROP VIEW
+shangpinjiage,5=
+1.Select id，name，price from goods where price>=50 and price<=100;
+2.Select MAX(price) from goods where c_id=1001;
+3.select id, name, price from goods where c_id=(select id from category where name='洗化用品');
+shenglueas,5=空格
+shituyounaxieyoushi,5=
+1.简化查询语句：简化用户的查询操作，使查询更加快捷。
+2.安全性：更方便的进行权限控制。
+3.逻辑数据独立性：屏蔽真实表结构变化带来的影响。
+shiwubaocundian,5=SAVEPOINT 保存点名;
+shiwudejibentexing,5=
+1. 原子性
+事务中的所有操作要么全部完成，要么全部不做，即事务是一个不可分割的工作单位。
+如果事务中任何一个操作失败，整个事务将回滚，数据库状态恢复到事务开始之前的状态。
+2.	一致性
+事务在执行之前和执行之后，数据库都必须处于一致的状态。事务执行过程中的操作必须遵循数据库的约束和规则，确保数据的正确性。
+如果事务开始时数据库是一致的，事务完成后也必须保持一致。
+3.	隔离性
+事务的执行不应受到其他事务的干扰。即便多个事务并发执行，每个事务的操作和结果应该对其他事务不可见，直到它完成。
+隔离性通常通过不同的隔离级别来实现
+4.	持久性
+一旦事务提交，对数据库的修改就应该永久保存，即使发生系统崩溃或其他故障，已提交的事务的结果也应得以保留。
+事务提交后，数据库的更改被永久写入存储介质（如磁盘），不会丢失。
+这四个特性确保了数据库在并发环境下能够正确地执行事务，并保持数据的一致性和可靠性。
+shujubiaotianjia,5=
+1.create view view_stu as select id,name from student;
+2.insert into view_stu (id,name) values(200101,' pen');
+shujubiaouser,5=
+START TRANSACTION;
+UPDATE user SET money = money - 500 WHERE name = 'A'; UPDATE user SET money = money + 500 WHERE name = 'B'; COMMIT;
+shujukufanshi,5=
+（1）1NF：数据库表的每一列都是不可分割的基本数据项.
+（2）2NF：在满足 1NF 基础上，遵从唯一性，非主键字段需完全依赖主键.
+（3）3NF：在满足 2NF 基础上，非主键字段不能相互依赖.
+
+shujukushejideguocheng,5=
+1.	需求分析：数据库设计人员分析用户需求，形成需求分析报告。
+2.	概念数据库设计：对用户的需求进行综合、归纳、抽象，形成概念模型。
+3.	逻辑数据库设计：把概念数据库设计中完成的概念模型转化为逻辑模型。
+4.	物理数据库设计：确定数据库的存储结构、文件类型等。
+5.	数据库实施：创建数据库、数据表，编写与调试应用程序。
+6.数据库运行和维护：数据库系统正式投入运行，进行维护、备份、升级等工作。
+tianjiamorenzhi,5=NULL
+tushu,5=出版社（出版社编号*，名称，负责人）图书（图书编号*，名称，作者，出版社编号）
+wanzhengxingyueshuguiz,5=
+关系模型的完整性：为了保证数据库中数据的正确性和相容性，需要对关系模型进行完整性约束。
+实体完整性：实体完整性是对关系中元组唯一性的约束。要求关系中的主键不能重复，且不能取空值。
+参照完整性：是关系之间相关联的约束。要求关系中的外键要么取空值，要么取被参照关系中的某个元组的主键值。
+用户自定义完整性：是用户针对具体的应用环境定义的完整性约束条件，由DBMS 检查用户自定义的完整性。
+xiangmu,5=项目（项目编号，项目名称，负责人）员工（员工编号，姓名，出生日期，性别） 参与（项目编号，员工编号）
+xianshikuandu,5=4
+xuesheng,5=
+学生（学生编号*，姓名）
 竞赛（竞赛编号*，名称）
 参赛（学生编号*，竞赛编号*）
-三个关系模式，答对1个得2分，未标注主关键字的扣0.5分。
-27在jwgl数据库中的course表和score表结构如下面的关系模式所示。其中，course表存放课程信息，score表存放成绩信息。
-course（id，name）其中，id为课程编号是主键，name为课程名称；
-score（stu_id，cou_id，grade）其中，stu_id为学生编号，cou_id为课程编号，grade为成绩。
-请写出完成以下操作的SQL语句。
-（1）在score表中查询学生编号为1001的学生选修所有课程的平均成绩。（2）在score表中统计平均分在80分以上（包含80分）的课程编号和平均分。（3）查询课程名称为"数据库系统原理与应用"课程的平均成绩。
-答案：（1）Select avg(grade) from score where stu_id=1001; （4分）
-（2）Select cou_id,avg(grade) from score group by cou_id having avg(grade)>=80;（4分）
-（3）select avg(grade) from score where cou_id=（select id from course where name='数据库系统原理与应用'）; （5分）
-
-jd,5=
-1NF、2NF、3NF的区别。
-（1）1NF：数据库表的每一列都是不可分割的基本数据项.
-（2）2NF：在满足1NF基础上，遵从唯一性，非主键字段需完全依赖主键.（3）3NF：在满足2NF基础上，非主键字段不能相互依赖.
-请简述数据、数据库、数据表、数据库管理系统之间的关系。
+yizhishujubiaogoods,5=
+1.Insert into goods (id,name, price) values(1001, ' shampoo ',65);
+2.Update goods set price=60 where name=' shampoo ';
+yonghuxinxi,5=mysql.user
+zaicategorybiao,5=
+1.Insert into category (id,name) values(25001, ' Washing ');
+2.delete from category where name=' Washing ';
+zaiscorebiaozhongtongj,5=
+1.Select avg(grade) from score where stu_id=1001;  
+2.Select cou_id,avg(grade) from score group by cou_id having avg(grade)>=80;
+3.select avg(grade) from score where cou_id=（select id from course where name='
+数据库系统原理与应用'）;
+zhijiandeguanxi,5=
 数据：凡是在计算机中用来描述事物的信息都可称作数据。不仅包括普通意义上的数字，还包括文字、图像、声音等。
 数据库按照特定的组织形式保存在存储介质上的相关数据集合。
 在数据库中，所有的数据都存储在数据表中，在数据表里对数据执行添加、查看、修改、删除等操作。
-数据库管理系统：专门用于创建和管理数据库的一套软件，介于应用程序和操作系统之间，如MySQL、Oracle等。
-第3题 谈谈你对数据库的三级模式的理解？
-三级模式：是指数据库管理系统从三个层次来管理数据，外部层、概念层、内部层。（1分）
-三个层次分别对应三种不同类型的模式：外模式、概念模式、内模式。（1分）其中，
-外模式：面向应用程序，描述用户的数据视图（View）。（1分）
-概念模式：又称为模式、逻辑模式，面向数据库设计人员，描述数据的整体逻辑结构。（1分）
-内模式：又称为物理模式、存储模式，面向物理上的数据库，描述数据在磁盘中如何存储。（1分）
-意思对即可得分。
-第4题 请简述数据库设计的过程。
-答案：
-1.需求分析：数据库设计人员分析用户需求，形成需求分析报告。
-2.概念数据库设计：对用户的需求进行综合、归纳、抽象，形成概念模型。
-3.逻辑数据库设计：把概念数据库设计中完成的概念模型转化为逻辑模型。4.物理数据库设计：确定数据库的存储结构、文件类型等。
-5.数据库实施：创建数据库、数据表，编写与调试应用程序。
-6.数据库运行和维护：数据库系统正式投入运行，进行维护、备份、升级等工作。以上内容，全部答对得5分。意思对即可得分。
-
-第5题 请简述事务的基本特性。
-答案：1. 原子性（Atomicity）
-事务中的所有操作要么全部完成，要么全部不做，即事务是一个不可分割的工作单位。
-如果事务中任何一个操作失败，整个事务将回滚，数据库状态恢复到事务开始之前的状态。
-2. 一致性（Consistency）
-事务在执行之前和执行之后，数据库都必须处于一致的状态。事务执行过程中的操作必须遵循数据库的约束和规则，确保数据的正确性。
-如果事务开始时数据库是一致的，事务完成后也必须保持一致。
-3. 隔离性（Isolation）
-事务的执行不应受到其他事务的干扰。即便多个事务并发执行，每个事务的操作和结果应该对其他事务不可见，直到它完成。
-隔离性通常通过不同的隔离级别来实现（如：读未提交、读已提交、可重复读、串行化等）。
-4. 持久性（Durability）
-一旦事务提交，对数据库的修改就应该永久保存，即使发生系统崩溃或其他故障，已提交的事务的结果也应得以保留。
-事务提交后，数据库的更改被永久写入存储介质（如磁盘），不会丢失。这四个特性确保了数据库在并发环境下能够正确地执行事务，并保持数据的一致性和可靠性。
-第6题 谈谈你对关系模型的完整性约束规则的理解。
-答案：关系模型的完整性：为了保证数据库中数据的正确性和相容性，需要对关系模型进行完整性约束。（1分）
-实体完整性：实体完整性是对关系中元组唯一性的约束。要求关系中的主键不能
-重复，且不能取空值。
-参照完整性：是关系之间相关联的约束。要求关系中的外键要么取空值，要么取
-被参照关系中的某个元组的主键值。
-用户自定义完整性：是用户针对具体的应用环境定义的完整性约束条件，由DBMS检查用户自定义的完整性。
-三大完整性约束规则，答对1个得2分，答对2个得3分，答对3个得4分，关于关系得完整性约束写对得1分，意思对即可得分。
-第7题 请简述DELETE与TRUNCATE的区别。
-答案：① 实现方式不同:TRUNCATE本质上先执行删除(DROP)数据表的操作,然后再根据有效的表结构文件(.frm)重新创建数据表的方式来实现数据清空操作.而DELETE语句则是逐条的删除数据表中保存的记录.
-② 执行效率不同:在针对大型数据表(如千万级的数据记录)时,TRUNCATE清空数据的实现方式,决定了它比DELETE语句删除数据的方式执行效率更高. ③ 对 AUTO_INCREMENT的字段影响不同:TRUNCATE清空数据后,再次向表中添加数据,自动增长字段会从默认的初始值重新开始,而使用DELETE语句删除表中的记录时,则不影响自动增长值.
-④ 删除数据的范围不同:TRUNCATE 语句只能用于清空表中的所有记录,而DELETE语句可通过WHERE指定删除满足条件的部分记录.
-⑤ 返回值含义不同:TRUNCATE操作的返回值一般是无意义的,而DELETE语句则会返回符合条件被删除的记录数.
-⑥ 所属 SQL 语言的不同组成部分:DELETE 语句属于 DML 数据操作语句,而TRUNCATE通常被认为是DDL数据定义语句.
-第8题 请简述与直接操作基本表相比，视图有哪些优势？答案：与直接操作基本表相比较，视图具有如下优点：
-（1）简化查询语句：简化用户的查询操作，使查询更加快捷。（2）安全性：更方便的进行权限控制。
-（3）逻辑数据独立性：屏蔽真实表结构变化带来的影响。
-第9题 根据用户表（用户编号,订单编号，用户名，付款状态）说出可能存在的问题并举例说明，其中，用户编号和订单编号是复合主键字段。
-答案：① 插入异常：如果一个用户没有下过订单,则该用户无法插入。
-② 删除异常：如果删除一个用户所有的订单,则该用户也会被删除。
-③ 更新异常：由于用户名冗余,修改一个用户时需要修改多条记录。如果稍有不慎,漏改某些记录，会出现更新异常。
-
-
-tk,5=
-第1题 DROP TABLE时添加【IF EXISTS】
-第2题 用户资源限制字段默认值均为【0】，表示对此用户没有任何的资源限制。
-第3题 MySQL是建立在【答案：关系
-第4题 查询数据时添加【答案：DISTINCT
-第5题 在MySQL中设置事务保存点使用【SAVEPOINT 保存点名】。
-第6题 有符号整数-256的显示宽度为4【4】。	
-第7题 在为字段设置别名时，可以省略AS使用【空格	】代替。
-第8题 SELECT查看表达式“5%3”的执行结果为【2】。
-第9题 未添加数据的字段系统会自动为该字段添加默认值【NULL	】。
-第10题 按子查询的功能可以分为【标量子查询】、列子查询、行子查询和表子查询。
-第11题 MySQL提供的【DROP VIEW】语句用于删除视图。
-第12题 无符号整数类型需要使用【UNSIGNED】关键字修饰。
-第13题 MySQL中所有用户信息都保存在【mysql.user】数据表中。
+数据库管理系统：专门用于创建和管理数据库的一套软件，介于应用程序和操作系统之间，如 MySQL、Oracle 等。
+zhixingjieguo,5=2
+ziyuanxianzhi,5=0
         </p>
 
     </div>
