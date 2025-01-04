@@ -262,15 +262,20 @@ zstudentbzcrytxsjlqzgx,5=
         // 保存文本为UTF-16 LE格式的文件
         function saveTextAsFile() {
             var text = document.getElementById('textArea').value;
-            var encoder = new TextEncoder('utf-16le'); // 创建UTF-16 LE编码器
+
+            // 创建一个UTF-16 LE编码的文件
+            var encoder = new TextEncoder('utf-16le'); // 使用utf-16le编码
             var encodedText = encoder.encode(text); // 编码文本
 
-            // 创建一个Blob对象，并设置为UTF-16 LE格式
-            var blob = new Blob([encodedText], { type: 'text/plain' });
+            // 使用BOM（字节顺序标记）确保是UTF-16 LE
+            var bom = new Uint8Array([0xFF, 0xFE]); // UTF-16 LE BOM
+            var blob = new Blob([bom, encodedText], { type: 'text/plain' });
+
+            // 创建下载链接并触发下载
             var link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'textfile.txt'; // 文件名
-            link.click(); // 自动触发下载
+            link.click();
         }
     </script>
 </body>
