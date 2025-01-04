@@ -10,15 +10,27 @@
     <button onclick="downloadText()">下载文件</button>
 
     <script>
+        // 将字符串转换为UTF-16 LE编码字节数组
+        function stringToUTF16LE(str) {
+            var bytes = [];
+            for (var i = 0; i < str.length; i++) {
+                // 获取每个字符的UTF-16编码点
+                var code = str.charCodeAt(i);
+                // 将字符编码点转为小端字节序（低字节在前）
+                bytes.push(code & 0xFF);      // 低字节
+                bytes.push((code >> 8) & 0xFF); // 高字节
+            }
+            return new Uint8Array(bytes);
+        }
+
         function downloadText() {
             // 获取页面中的内容
             const textContent = document.getElementById('content').innerText;
 
-            // 创建UTF-16 LE编码的内容
-            const encoder = new TextEncoder('utf-16le'); // 使用UTF-16 LE编码
-            const encodedContent = encoder.encode(textContent);
+            // 将文本内容转换为UTF-16 LE编码字节
+            const encodedContent = stringToUTF16LE(textContent);
 
-            // 创建Blob对象
+            // 创建UTF-16 LE编码的Blob对象
             const blob = new Blob([encodedContent], { type: 'text/plain' });
 
             // 创建下载链接
