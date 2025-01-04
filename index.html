@@ -13,12 +13,12 @@
 
     <script>
         function downloadFile() {
-            // 设置文件路径
-            const filePath = '111/static/PhraseEdit.txt';  // 根据实际路径调整
+            // 设置GitHub上的文件路径（原始文件链接）
+            const filePath = 'https://raw.githubusercontent.com/johndoe/my-repository/main/111/static/PhraseEdit.txt';  // 这里替换为你的文件路径
 
             // 创建下载链接
             const link = document.createElement('a');
-            link.href = filePath;  // 直接指向静态文件
+            link.href = filePath;  // 直接指向GitHub的原始文件
             link.download = 'PhraseEdit.txt';  // 下载时保存的文件名
 
             // 触发点击事件，开始下载
