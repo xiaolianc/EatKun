@@ -3,47 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文字显示示例</title>
-    <style>
-        /* 确保格式正确，文字完整显示 */
-        body {
-            font-family: Arial, sans-serif; /* 设置字体 */
-            line-height: 1.6; /* 行间距 */
-            white-space: pre-wrap; /* 保持文本格式 */
-            word-wrap: break-word; /* 长文本自动换行 */
-            margin: 0; /* 去掉页面边距 */
-            padding: 0; /* 去掉页面内边距 */
-            display: flex; /* 使用flex布局 */
-            justify-content: center; /* 居中显示内容 */
-            align-items: center; /* 垂直居中 */
-            height: 100vh; /* 页面高度占满屏幕 */
-        }
-
-        .content {
-            width: 100%; /* 容器宽度占满页面 */
-            max-width: 100%; /* 容器最大宽度为100% */
-            padding: 0; /* 去掉容器内边距 */
-            box-sizing: border-box; /* 使宽度和高度包括padding */
-            overflow: auto; /* 如果文本过多，允许滚动 */
-        }
-
-        p {
-            font-size: 16px;
-            color: #333;
-            margin: 0; /* 去掉段落之间的空白 */
-            padding: 0; /* 去掉段落内的空白 */
-        }
-
-        /* 让文本内容可选 */
-        .content p {
-            user-select: text; /* 允许选择文字 */
-        }
-    </style>
+    <title>UTF-16 LE 下载示例</title>
 </head>
 <body>
-    <div class="content">
-        <p>
-;  搜狗输入法--自定义短语配置文件
+    <h1>欢迎下载UTF-16 LE编码文件</h1>
+    <button onclick="downloadText()">下载文件</button>
+
+    <script>
+        function downloadText() {
+            // 获取页面中的内容
+            const textContent = document.getElementById('content').innerText;
+
+            // 创建UTF-16 LE编码的内容
+            const encoder = new TextEncoder('utf-16le'); // 使用UTF-16 LE编码
+            const encodedContent = encoder.encode(textContent);
+
+            // 创建Blob对象
+            const blob = new Blob([encodedContent], { type: 'text/plain' });
+
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'content.txt'; // 设置下载的文件名
+
+            // 触发下载
+            link.click();
+        }
+    </script>
+
+    <div id="content" style="display:none;">
+        ;  搜狗输入法--自定义短语配置文件
 
 ;  自定义短语说明：
 ;  1、自定义短语支持多行、空格、指定位置。
@@ -254,7 +243,6 @@ zscorebzcxxsbhwdxsxxsy,5=
 zstudentbzcrytxsjlqzgx,5=
 （1）Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12'); 
 （2）Update student set birthday ='2001-10-01' where id= 23001; 
-</p>
     </div>
 </body>
 </html>
