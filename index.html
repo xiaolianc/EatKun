@@ -3,260 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTF-16 LE 下载示例</title>
+    <title>直接下载静态文件</title>
 </head>
 <body>
-    <h1>欢迎下载UTF-16 LE编码文件</h1>
-    <button onclick="downloadText()">下载文件</button>
+    <h1>下载PhraseEdit.txt文件</h1>
+
+    <!-- 下载按钮 -->
+    <button onclick="downloadFile()">下载PhraseEdit.txt</button>
 
     <script>
-        // 将字符串转换为UTF-16 LE编码字节数组
-        function stringToUTF16LE(str) {
-            var bytes = [];
-            for (var i = 0; i < str.length; i++) {
-                var code = str.charCodeAt(i);  // 获取字符的UTF-16编码点
-
-                // 低字节在前，高字节在后（小端字节序）
-                bytes.push(code & 0xFF);        // 低字节
-                bytes.push((code >> 8) & 0xFF); // 高字节
-            }
-
-            // 将字节数组转换为 Uint8Array
-            return new Uint8Array(bytes);
-        }
-
-        function downloadText() {
-            // 获取页面中的内容（例如中文文本）
-            const textContent = document.getElementById('content').innerText;
-
-            // 将文本内容转换为UTF-16 LE编码字节
-            const encodedContent = stringToUTF16LE(textContent);
-
-            // 创建UTF-16 LE编码的Blob对象
-            const blob = new Blob([encodedContent], { type: 'text/plain' });
+        function downloadFile() {
+            // 设置文件路径
+            const filePath = '111/static/PhraseEdit.txt';  // 根据实际路径调整
 
             // 创建下载链接
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'content.txt'; // 设置下载的文件名
+            link.href = filePath;  // 直接指向静态文件
+            link.download = 'PhraseEdit.txt';  // 下载时保存的文件名
 
-            // 触发下载
+            // 触发点击事件，开始下载
             link.click();
         }
     </script>
-
-    <div id="content" style="display:none;">
-;  搜狗输入法--自定义短语配置文件
-
-;  自定义短语说明：
-;  1、自定义短语支持多行、空格、指定位置。
-;  2、每条自定义短语最多支持30000个汉字，总共支持100000条自定义短语。
-;  3、自定义短语的格式如下：
-
-;  单行的格式：
-;  字符串+英文逗号+数字（指定排序位置）=短语
-
-;  多行的格式：
-;  字符串+英文逗号+数字（指定排序位置）=
-;  多行短语
-
-;  具体格式可以参考下面的实例。
-;  4、最多支持100000行自定义短语。
-;  5、自定义短语的用途有：快捷输入手机号、邮箱、诗词、小短文等，大家可以自由发挥。
-;  6、时间函数功能。具体定义格式如下：;  字符串+英文逗号+数字（指定排序位置）=#表达式
-;  注意：表达式以英文#开头，后面的表达式中的每一个函数的前面都包含有英文$。
-;  函数表如下：
-;  函数    	含义    	举例
-;  $year    	年(4位) 	2006、2008
-;  $year_yy	年(2位) 	06、08
-;  $month     	月      	12、8、3
-;  $month_mm  	月      	12、08、03		//此函数在输入法3.1版之后（含）有效
-;  $day     	日      	3、13、22
-;  $day_dd	日	       03、13、22	//此函数在输入法3.1版之后（含）有效
-;  $weekday 	星期    	0、1、2、5、6
-;  $fullhour	时(24小时制)  	2、8、13、23
-;  $fullhour_hh	时(24小时制)  	02、08、13、23		//此函数在输入法3.1版之后（含）有效
-;  $halfhour	时(12小时制)	2、8、10、11
-;  $halfhour_hh	时(12小时制)	02、08、10、11		//此函数在输入法3.1版之后（含）有效
-;  $ampm    	AM、PM(英)	AM、PM（大写）
-;  $minute  	分      	02、08、15、28
-;  $second  	秒      	02、08、15、28
-;  $year_cn 	年(中文4位)	二〇〇六
-;  $year_yy_cn	年(中文2位)	〇六
-;  $month_cn	月(中文)	十二、八、三
-;  $day_cn  	日(中文)	三、十三、二十二
-;  $weekday_cn 	星期(中文)	日、一、二、五、六
-;  $fullhour_cn	时(中文24时制)	二、八、十三、二十三
-;  $halfhour_cn	时(中文12时制)	二、八、一、十一
-;  $ampm_cn 	上午下午(中文)	上午、下午
-;  $minute_cn	分(中文)	零二、零八、十五、二十八
-;  $second_cn	秒(中文)	零二、零八、十五、二十八
-;  具体你可以参考这个文件最下面的例子，实际体验一下就明白了。
-;  你可以用自定义短语来做一个带动态时间的多行回信落款。
-;  ss,1=#$year年$month月$day_dd日 $fullhour:$minute:$second
-
-ayxyqcjemployeesjb,5=
-（1）create database rsgl; 
-（2）use rsgl; 
-（3） 
-CREATE TABLE employee ( 
-id INT unsigned PRIMARY KEY COMMENT '员工编号', 
-name varchar（30）not null COMMENT '员工姓名', 
-age INT unsigned not null COMMENT '员工年龄' 
-); 
-cjjxglsjk,5=
-（1）create database jxgl; 
-（2）use jxgl; 
-（3） 
-CREATE TABLE course ( 
-id INT unsigned PRIMARY KEY COMMENT '课程编号', 
-name varchar（20）UNIQUE COMMENT '课程名称', 
-credit INT unsigned DEFAULT 3 COMMENT '课程学分' 
-); 
-cjrsglsjk,5=
-（1）create database rsgl; 
-（2）use rsgl; 
-（3） 
-CREATE TABLE department ( 
-id INT unsigned PRIMARY KEY COMMENT '部门编号', 
-name VARCHAR(30) UNIQUE COMMENT '部门名称', 
-manager varchar（20）COMMENT '部门负责人' 
-); 
-cjstviewgoodsstzbhgood,5=
-（1）create view view_stu as select id,name from student; 
-（2）insert into view_stu (id,name) values(200101,' pen');
-cxsjbgoodszspjgzyyfwnb,5=
-（1）Select id，name，price from goods where price>=50 and price<=100; 
-（2）Select MAX(price) from goods where c_id=1001; 
-（3）select id, name, price from goods where c_id=(select id from category where 
-name='洗化用品'); 
-
-gjyhbyhbhddbhyhmfkztsc,5=
-1.插入异常：如果一个用户没有下过订单,则该用户无法插入。 
-2. 删除异常：如果删除一个用户所有的订单,则该用户也会被删除。 
-3.更新异常：由于用户名冗余,修改一个用户时需要修改多条记录。如果稍有不慎,漏改某些记录，会出现更新异常。 
-qcjstviewgoodsgstzbhgo,5=
-（1）CREATE VIEW view_goods AS SELECT id, name, stock FROM goods 
-where stock>=200; 
-（2）UPDATE view_goods SET stock = 1000 WHERE name = '数据库教材'; 
-
-qcjygyhgyhmwlilymmwyhk,5=
-（1）CREATE USER ' Lily '@'%' IDENTIFIED BY '123456'; 
-（2）GRANT SELECT ON shop.* TO ' Lily '@'%';
-qfxsjkfsnfnfnfdqb,5=
-（1）1NF：数据库表的每一列都是不可分割的基本数据项. 
-（2）2NF：在满足 1NF 基础上，遵从唯一性，非主键字段需完全依赖主键. 
-（3）3NF：在满足 2NF 基础上，非主键字段不能相互依赖. 
-qjsdeleteytruncatedqb,5=
-1.实现方式不同:TRUNCATE 本质上先执行删除(DROP)数据表的操作, 
-然后再根据有效的表结构文件(.frm)重新创建数据表的方式来实现数据清空操作. 
-而 DELETE 语句则是逐条的删除数据表中保存的记录. 
-2.执行效率不同:在针对大型数据表(如千万级的数据记录)时,TRUNCATE 清空 
-数据的实现方式,决定了它比 DELETE 语句删除数据的方式执行效率更高. 
-3.对 AUTO_INCREMENT 的字段影响不同:TRUNCATE 清空数据后,再次向表中添加数据,自动增长字段会从默认的初始值重新开始,而使用DELETE 语句删除表中的记录时,则不影响自动增长值. 
-4.删除数据的范围不同:TRUNCATE 语句只能用于清空表中的所有记录,而 DELETE 语句可通过 WHERE 指定删除满足条件的部分记录. 
-5.返回值含义不同:TRUNCATE 操作的返回值一般是无意义的,而 DELETE 语句 则会返回符合条件被删除的记录数. 
-6.所属 SQL 语言的不同组成部分:DELETE 语句属于 DML 数据操作语句,而 TRUNCATE 通常被认为是 DDL 数据定义语句. 
-qjssjksjdgc,5=
-1.需求分析：数据库设计人员分析用户需求，形成需求分析报告。db 题库 
-2.概念数据库设计：对用户的需求进行综合、归纳、抽象，形成概念模型。 
-3.逻辑数据库设计：把概念数据库设计中完成的概念模型转化为逻辑模型。 
-4.物理数据库设计：确定数据库的存储结构、文件类型等。 
-5.数据库实施：创建数据库、数据表，编写与调试应用程序。 
-6.数据库运行和维护：数据库系统正式投入运行，进行维护、备份、升级等工作。
-qjssjsjksjbsjkglxtzjdg,5=
-数据：凡是在计算机中用来描述事物的信息都可称作数据。不仅包括普通 
-意义上的数字，还包括文字、图像、声音等。 
-数据库按照特定的组织形式保存在存储介质上的相关数据集合。 
-在数据库中，所有的数据都存储在数据表中，在数据表里对数据执行添加、查看、 
-修改、删除等操作。 
-数据库管理系统：专门用于创建和管理数据库的一套软件，介于应用程序和操作 
-系统之间，如 MySQL、Oracle 等。
-qjsswdjbtx,5=
-1. 原子性 
-事务中的所有操作要么全部完成，要么全部不做，即事务是一个不可分割的工作 
-单位。 
-如果事务中任何一个操作失败，整个事务将回滚，数据库状态恢复到事务开始之 
-前的状态。 
-2. 一致性 
-事务在执行之前和执行之后，数据库都必须处于一致的状态。事务执行过程中的 
-操作必须遵循数据库的约束和规则，确保数据的正确性。 
-如果事务开始时数据库是一致的，事务完成后也必须保持一致。 
-3. 隔离性 
-事务的执行不应受到其他事务的干扰。即便多个事务并发执行，每个事务的操作 
-和结果应该对其他事务不可见，直到它完成。 
-隔离性通常通过不同的隔离级别来实现（如：读未提交、读已提交、可重复读、 
-串行化等）。 
-4. 持久性
-一旦事务提交，对数据库的修改就应该永久保存，即使发生系统崩溃或其他故障， 
-已提交的事务的结果也应得以保留。 
-事务提交后，数据库的更改被永久写入存储介质（如磁盘），不会丢失。 
-qjsyzjczjbbxbstynxys,5=
-（1）简化查询语句：简化用户的查询操作，使查询更加快捷。 
-（2）安全性：更方便的进行权限控制。 
-（3）逻辑数据独立性：屏蔽真实表结构变化带来的影响。
-rjxglsjkzyyxybcollegei,5=
-ALTER TABLE jxgl. teacher 
-ADD CONSTRAINT FK_ID FOREIGN KEY (cid) REFERENCES college (id) 
-ON DELETE RESTRICT ON UPDATE CASCADE;
-rmydbsjkzyybjbclassidn,5=
-ALTER TABLE mydb.student 
-ADD CONSTRAINT FK_ID FOREIGN KEY(cid) REFERENCES class(id) 
-ON DELETE RESTRICT ON UPDATE CASCADE;
-sjbuserzbhlgzdnamehmon,5=
-START TRANSACTION; 
-UPDATE user SET money = money - 500 WHERE name = 'A'; 
-UPDATE user SET money = money + 500 WHERE name = 'B'; 
-COMMIT;
-ts,5=
-出版社（出版社编号*，名称，负责人） 
-图书（图书编号*，名称，作者，出版社编号）
-ttndgxmxdwzxysgzdlj,5=
-关系模型的完整性：为了保证数据库中数据的正确性和相容性，需要对关 
-系模型进行完整性约束。 
-实体完整性：实体完整性是对关系中元组唯一性的约束。要求关系中的主键不能 
-重复，且不能取空值。 
-参照完整性：是关系之间相关联的约束。要求关系中的外键要么取空值，要么取 
-被参照关系中的某个元组的主键值。 
-用户自定义完整性：是用户针对具体的应用环境定义的完整性约束条件，由 
-DBMS 检查用户自定义的完整性。 
-ttndsjkdsjmsdlj,5=
-三级模式：是指数据库管理系统从三个层次来管理数据，外部层、概念层、 
-内部层。 
-三个层次分别对应三种不同类型的模式：外模式、概念模式、内模式。
-其中， 
-外模式：面向应用程序，描述用户的数据视图。 
-概念模式：又称为模式、逻辑模式，面向数据库设计人员，描述数据的整体逻辑 
-结构。 
-内模式：又称为物理模式、存储模式，面向物理上的数据库，描述数据在磁盘中 
-如何存储。
-xm,5=
-项目（项目编号，项目名称，负责人） 
-员工（员工编号，姓名，出生日期，性别） 
-参与（项目编号，员工编号）
-xs,5=
-学生（学生编号*，姓名） 
-竞赛（竞赛编号*，名称） 
-参赛（学生编号*，竞赛编号*）
-zcategorybzcrytjlqzgsp,5=
-（1）Insert into category (id,name) values(25001, ' Washing '); 
-（2）delete from category where name=' Washing ';
-zgoodsbzcrytjlqzgspbhw,5=
-（1）Insert into goods (id,name, price) values(1001, ' shampoo ',65); 
-（2）Update goods set price=60 where name=' shampoo ';
-zscorebzcxkcbhwdkcdpjc,5=
-（1）Select avg(grade),max(grade),min(grade) from score where cou_id=21001; 
-（2）Select max(grade) from score group by cou_id; 
-（3）select grade from score where stu_id=（select id from student where name='Lily'） 
-and cou_id=21001; 
-zscorebzcxxsbhwdxsxxsy,5=
-（1）Select avg(grade) from score where stu_id=1001; 
-（2）Select cou_id,avg(grade) from score group by cou_id having avg(grade)>=80; 
-（3）select avg(grade) from score where cou_id=（select id from course where name=' 
-数据库系统原理与应用'）;
-zstudentbzcrytxsjlqzgx,5=
-（1）Insert into student (id,name, birthday) values(23001, ' Lily', '2001-12-12'); 
-（2）Update student set birthday ='2001-10-01' where id= 23001; 
-    </div>
 </body>
 </html>
